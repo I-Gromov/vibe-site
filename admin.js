@@ -132,7 +132,7 @@ function downloadJson() {
 
 function loadFromServer() {
   setStatus('Загрузка…');
-  fetch('data/questions.json')
+  fetch('data/questions.json', { cache: 'no-store' })
     .then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();

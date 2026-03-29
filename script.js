@@ -114,7 +114,7 @@ function showError(msg) {
 }
 
 function main() {
-  fetch('data/questions.json')
+  fetch('data/questions.json', { cache: 'no-store' })
     .then(function (r) {
       if (!r.ok) throw new Error('Не удалось загрузить data/questions.json (HTTP ' + r.status + ')');
       return r.json();
