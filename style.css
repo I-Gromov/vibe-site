@@ -259,6 +259,32 @@ body {
   font-size: 13px;
 }
 
+.answer-text {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+.quiz-error {
+  color: #b42318;
+  font-size: 14px;
+  padding: 16px;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+
+.footer-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer-link:hover {
+  color: var(--accent-hover);
+}
+
 .user-answer {
   width: 50%;
   background: var(--bg);

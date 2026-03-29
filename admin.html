@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GGSEL — Редактирование вопросов</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html"><img src="logo-ggsel.svg" alt="GGSEL" height="28" /></a>
+      <div class="header-meta">Локальное редактирование · сохраните JSON в репозиторий</div>
+    </div>
+  </header>
+
+  <main class="container admin-container">
+    <section class="admin-hero">
+      <h1>Админка вопросов</h1>
+      <p class="hero-sub">Редактируйте блоки ниже, затем скачайте <code class="inline-code">data/questions.json</code> и замените файл в проекте. После — коммит и деплой на GitHub Pages.</p>
+
+      <div class="admin-toolbar">
+        <label class="btn-file">
+          Загрузить JSON
+          <input type="file" id="fileInput" accept=".json,application/json" hidden />
+        </label>
+        <button type="button" class="admin-btn primary" id="btnReload">Загрузить с сервера</button>
+        <button type="button" class="admin-btn" id="btnDownload">Скачать questions.json</button>
+        <button type="button" class="admin-btn" id="btnAddSection">+ Раздел</button>
+      </div>
+      <p id="adminStatus" class="admin-status" role="status"></p>
+    </section>
+
+    <div id="adminRoot"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>GGSEL · <a class="footer-link" href="index.html">К тесту</a></p>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

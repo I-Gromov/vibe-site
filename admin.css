@@ -1,0 +1,219 @@
+.admin-page .admin-container {
+  padding-bottom: 64px;
+}
+
+.admin-hero {
+  padding: 40px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+
+.admin-hero h1 {
+  font-weight: 800;
+  font-size: clamp(22px, 3.5vw, 30px);
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.inline-code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.92em;
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.admin-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-2);
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.admin-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--accent-dim);
+}
+
+.admin-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.admin-btn.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-file {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-2);
+  background: var(--bg);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-file:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.admin-status {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  min-height: 1.2em;
+}
+
+.admin-status.error {
+  color: #b42318;
+}
+
+.admin-section-block {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.admin-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  padding: 16px 18px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-field label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.admin-field input {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  min-width: 120px;
+}
+
+.admin-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.admin-field.id-field input {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.admin-section-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.admin-section-actions button {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.admin-question {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.admin-question:last-child {
+  border-bottom: none;
+}
+
+.admin-question-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.admin-question-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.admin-question textarea {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+.admin-question textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.admin-question .q-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.admin-add-q {
+  margin: 12px 18px 18px;
+}
+
+@media (max-width: 600px) {
+  .admin-section-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-section-actions {
+    margin-left: 0;
+  }
+}
