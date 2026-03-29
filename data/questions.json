@@ -8,7 +8,7 @@
       "questions": [
         {
           "question": "На какие метрики раскладывается GMV?",
-          "answer": ""
+          "answer": "GMV = AOV * Orders"
         },
         {
           "question": "Как у нас считается Unit-экономика?",
