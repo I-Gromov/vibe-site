@@ -18,9 +18,39 @@ function slugId(s) {
   return base + '-' + String(Date.now()).slice(-6);
 }
 
+function normalizeQuestion(q) {
+  if (q && Array.isArray(q.options) && q.options.length === 4) {
+    return {
+      question: q.question || '',
+      options: q.options.map(function (o) {
+        return String(o == null ? '' : o);
+      }),
+      correctIndex: Math.max(0, Math.min(3, parseInt(q.correctIndex, 10) || 0)),
+      answer: String(q.answer || ''),
+    };
+  }
+  var a = (q && (q.answer || '')).trim();
+  if (a) {
+    return { question: q.question || '', options: ['', '', '', ''], correctIndex: 0, answer: a };
+  }
+  return { question: (q && q.question) || '', options: ['', '', '', ''], correctIndex: 0, answer: '' };
+}
+
+function normalizeState(data) {
+  data.sections.forEach(function (sec) {
+    sec.questions = sec.questions.map(normalizeQuestion);
+  });
+  return data;
+}
+
+function emptyQuestion() {
+  return { question: '', options: ['', '', '', ''], correctIndex: 0, answer: '' };
+}
+
 function render() {
   var root = document.getElementById('adminRoot');
   var html = '';
+  var letters = ['A', 'B', 'C', 'D'];
   state.sections.forEach(function (sec, si) {
     html += '<div class="admin-section-block" data-section-index="' + si + '">';
     html += '<div class="admin-section-head">';
@@ -33,13 +63,28 @@ function render() {
     html += '</div></div>';
 
     sec.questions.forEach(function (q, qi) {
+      var nq = normalizeQuestion(q);
       html += '<div class="admin-question" data-q-index="' + qi + '">';
       html += '<div class="admin-question-head"><span class="admin-question-num">Вопрос ' + (qi + 1) + '</span>';
       html += '<button type="button" class="admin-btn btn-remove-q">Удалить</button></div>';
       html += '<div class="q-label">Текст вопроса</div>';
-      html += '<textarea class="ta-q" rows="3">' + escTextarea(q.question) + '</textarea>';
-      html += '<div class="q-label">Ответ (для сотрудника)</div>';
-      html += '<textarea class="ta-a" rows="4">' + escTextarea(q.answer) + '</textarea>';
+      html += '<textarea class="ta-q" rows="3">' + escTextarea(nq.question) + '</textarea>';
+
+      html += '<div class="q-label">Варианты ответа (4 шт.) — отметьте один верный</div>';
+      html += '<div class="admin-options">';
+      for (var oi = 0; oi < 4; oi++) {
+        var checked = nq.correctIndex === oi ? ' checked' : '';
+        html += '<div class="admin-opt-row">';
+        html += '<span class="opt-letter">' + letters[oi] + '</span>';
+        html += '<input type="text" class="inp-opt" data-opt-index="' + oi + '" value="' + escAttr(nq.options[oi]) + '" placeholder="Текст варианта ' + letters[oi] + '" />';
+        html += '<label class="opt-correct-lbl"><input type="radio" class="radio-correct" name="corr-' + si + '-' + qi + '" value="' + oi + '"' + checked + ' /><span>верный</span></label>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      html += '<div class="q-label">Комментарий (логика правильного ответа)</div>';
+      html += '<textarea class="ta-a" rows="4">' + escTextarea(nq.answer || '') + '</textarea>';
+
       html += '</div>';
     });
 
@@ -76,9 +121,21 @@ function readDomToState() {
 
     var questions = [];
     block.querySelectorAll('.admin-question').forEach(function (qel) {
+      var qi = Number(qel.getAttribute('data-q-index'));
+      var opts = [];
+      for (var oi = 0; oi < 4; oi++) {
+        var inp = qel.querySelector('input.inp-opt[data-opt-index="' + oi + '"]');
+        opts.push(inp ? inp.value : '');
+      }
+      var name = 'corr-' + si + '-' + qi;
+      var corr = qel.querySelector('input[name="' + name + '"]:checked');
+      var correctIndex = corr ? parseInt(corr.value, 10) : 0;
+      if (isNaN(correctIndex)) correctIndex = 0;
       questions.push({
         question: qel.querySelector('.ta-q').value,
-        answer: qel.querySelector('.ta-a').value,
+        options: opts,
+        correctIndex: Math.max(0, Math.min(3, correctIndex)),
+        answer: qel.querySelector('.ta-a') ? qel.querySelector('.ta-a').value : '',
       });
     });
     sec.questions = questions;
@@ -99,7 +156,7 @@ function bindAdmin() {
 
     block.querySelector('.btn-add-q').addEventListener('click', function () {
       readDomToState();
-      state.sections[si].questions.push({ question: '', answer: '' });
+      state.sections[si].questions.push(emptyQuestion());
       render();
       setStatus('Добавлен вопрос.');
     });
@@ -139,7 +196,7 @@ function loadFromServer() {
     })
     .then(function (data) {
       if (!data || !Array.isArray(data.sections)) throw new Error('Нужен объект { sections: [...] }');
-      state = data;
+      state = normalizeState(data);
       render();
       setStatus('Загружено с сервера.');
     })
@@ -159,10 +216,10 @@ document.getElementById('btnAddSection').addEventListener('click', function () {
     title: 'Новый раздел',
     icon: '📌',
     filterLabel: 'Раздел',
-    questions: [{ question: '', answer: '' }],
+    questions: [emptyQuestion()],
   });
   render();
-  setStatus('Добавлен раздел. Задайте заголовок и при необходимости скопируйте id вручную в JSON после скачивания.');
+  setStatus('Добавлен раздел. Задайте заголовок и при необходимости скорректируйте id.');
 });
 
 document.getElementById('fileInput').addEventListener('change', function (e) {
@@ -173,7 +230,7 @@ document.getElementById('fileInput').addEventListener('change', function (e) {
     try {
       var data = JSON.parse(reader.result);
       if (!data || !Array.isArray(data.sections)) throw new Error('Нужен { "sections": [...] }');
-      state = data;
+      state = normalizeState(data);
       render();
       setStatus('Файл «' + f.name + '» загружен.');
     } catch (err) {

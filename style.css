@@ -253,16 +253,79 @@ body {
 
 .answer-block.hidden { display: none; }
 
-.answer-placeholder {
-  color: var(--text-muted);
-  font-style: italic;
-  font-size: 13px;
+.mcq-feedback {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin: 0;
 }
 
-.answer-text {
-  font-size: 14px;
+.mcq-explanation {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--text-dim);
   line-height: 1.55;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.quiz-option:hover {
+  border-color: var(--border-2);
+  background: var(--surface);
+}
+
+.quiz-option-letter {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 18px;
+}
+
+.quiz-option input[type="radio"] {
+  flex-shrink: 0;
+  margin: 2px 0 0 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.quiz-option-text {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.card.is-open .quiz-option.is-correct-answer {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.card.is-open .quiz-option.is-user-choice.is-wrong-choice {
+  border-color: #e07878;
+  background: #fef2f2;
+}
+
+.card.is-open .quiz-option.is-user-choice:not(.is-wrong-choice) {
+  border-color: var(--accent);
 }
 
 .quiz-error {
@@ -283,28 +346,6 @@ body {
 
 .footer-link:hover {
   color: var(--accent-hover);
-}
-
-.user-answer {
-  width: 50%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text);
-  transition: border-color var(--transition);
-}
-
-.user-answer::placeholder {
-  color: var(--text-muted);
-}
-
-.user-answer:focus {
-  outline: none;
-  border-color: var(--accent);
 }
 
 .toggle-btn {
