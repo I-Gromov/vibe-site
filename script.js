@@ -171,6 +171,7 @@ function bindQuizInteractions() {
     var card = btn.closest('.card');
     var answerBlock = card.querySelector('.answer-block');
     var isOpen = !answerBlock.classList.contains('hidden');
+    let quizOptions = card.getElementsByClassName('quiz-option'); // забираем блоки вариантов ответов
 
     if (isOpen) {
       answerBlock.classList.add('hidden');
@@ -182,6 +183,14 @@ function bindQuizInteractions() {
       if (isNaN(correct)) correct = 0;
 
       var picked = card.querySelector('.quiz-options input[type=radio]:checked');
+      if(picked == null) return; // проверяем что был дан ответ
+  
+      for (let i = 0; i < quizOptions.length; i++) { // проходимся по вариантам ответов и отключаем взаимодействие с ними
+        quizOptions[i]
+        .querySelector('input')
+        .setAttribute('disabled', true);
+      }
+
       var pickedIdx = picked ? parseInt(picked.value, 10) : null;
 
       var qObj = getQuestionFromCard(card);
@@ -189,7 +198,8 @@ function bindQuizInteractions() {
 
       answerBlock.classList.remove('hidden');
       card.classList.add('is-open');
-      btn.textContent = 'Скрыть ответ';
+      // btn.textContent = 'Скрыть ответ';
+      btn.remove();
 
       applyMcqResult(card, correct, pickedIdx, explanation);
     }
