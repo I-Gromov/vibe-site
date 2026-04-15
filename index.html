@@ -21,9 +21,12 @@
       <h1>Тест для сотрудников</h1>
       <p class="hero-sub">Выбери один из четырёх вариантов, затем нажми «Проверить ответ». Без спешки.</p>
       <div class="progress-bar-wrap">
-        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-bar-line" id="progressBarCorrect"></div>
+          <div class="progress-bar-line red" id="progressBarIncorrect"></div>
+        </div>
       </div>
-      <div class="progress-label" id="progressLabel">0 / 0 вопросов открыто</div>
+      <div class="progress-label" id="progressLabel">0 / 0 отвечено • 0 ошибок</div>
     </section>
 
     <p id="quizError" class="quiz-error" hidden></p>
@@ -39,7 +42,10 @@
     <nav class="side-nav" id="filterNav"></nav>
     <div class="side-progress">
       <div class="side-progress-track">
-        <div class="side-progress-fill" id="sideProgressBar"></div>
+        <div class="side-progress-fill" id="sideProgressBar">
+          <div class="side-progress-fill-line red" id="sideProgressBarIncorrect"></div>
+          <div class="side-progress-fill-line" id="sideProgressBarCorrect"></div>
+        </div>
       </div>
       <div class="side-progress-label" id="sideProgressLabel">0%</div>
     </div>
