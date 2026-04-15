@@ -72,6 +72,7 @@ function applyMcqResult(card, correctIdx, pickedIdx, explanation) {
   var labels = card.querySelectorAll('.quiz-option');
   var fb = card.querySelector('.mcq-feedback');
   var ex = card.querySelector('.mcq-explanation');
+  let result = false;
 
   labels.forEach(function (label, i) {
     if (i === correctIdx) label.classList.add('is-correct-answer');
@@ -88,6 +89,7 @@ function applyMcqResult(card, correctIdx, pickedIdx, explanation) {
       fb.textContent = 'Верно.';
     } else {
       fb.textContent = 'Неверно. Правильный вариант: ' + LETTERS[correctIdx] + '.';
+      card.classList.add('incorrect');
     }
   }
 
@@ -149,17 +151,37 @@ function renderFilterNav(data) {
   nav.innerHTML = html;
 }
 
+function pluralize(n, titles) {
+  const cases = [2, 0, 1, 1, 1, 2];
+  return titles[
+    (n % 100 > 4 && n % 100 < 20) 
+    ? 2 
+    : cases[(n % 10 < 5) ? n % 10 : 5]
+  ];
+}
+
 function updateProgress() {
   var allCards = document.querySelectorAll('.card');
   var openedCards = document.querySelectorAll('.card.is-open');
+  var incorrectCards = document.querySelectorAll('.card.incorrect');
   var total = allCards.length;
   var opened = openedCards.length;
+  var incorrect = incorrectCards.length;
+  var correct = opened-incorrect;
+  
   var pct = total > 0 ? (opened / total) * 100 : 0;
 
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = opened + ' / ' + total + ' вопросов открыто';
+  let pctIncorrect = total > 0 ? (incorrect / total) * 100 : 0;
+  let pctCorrect = total > 0 ? (correct / total) * 100 : 0;
 
-  document.getElementById('sideProgressBar').style.height = pct + '%';
+  // document.getElementById('progressBar').style.width = pctCorrect+pctIncorrect + '%';
+
+  document.getElementById('progressBarCorrect').style.width = pctCorrect + '%';
+  document.getElementById('progressBarIncorrect').style.width = pctIncorrect + '%';
+  document.getElementById('progressLabel').textContent = `${opened}/${total} отвечено • ${incorrect} ${pluralize(incorrect, ['ошибка', 'ошибки', 'ошибок'])}`
+
+  document.getElementById('sideProgressBarCorrect').style.height = pctCorrect + '%';
+  document.getElementById('sideProgressBarIncorrect').style.height = pctIncorrect + '%';
   document.getElementById('sideProgressLabel').textContent = Math.round(pct) + '%';
 }
 
@@ -202,6 +224,12 @@ function bindQuizInteractions() {
       btn.remove();
 
       applyMcqResult(card, correct, pickedIdx, explanation);
+
+
+      // if(!isCorrect)
+      // {
+      //   card.classList.add('incorrect');
+      // }
     }
 
     updateProgress();
@@ -226,7 +254,10 @@ function bindQuizInteractions() {
         section.classList.add('hidden');
       }
     });
-
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
     updateProgress();
   });
 }
