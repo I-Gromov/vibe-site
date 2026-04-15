@@ -13,6 +13,7 @@
   --accent-hover:#4bcf2e;
   --accent-dim:  rgba(91, 223, 60, 0.08);
   --accent-glow: rgba(91, 223, 60, 0.18);
+  --incorrect-red: #F23A2C;
   --text:        #1a1a1a;
   --text-muted:  #888888;
   --text-dim:    #555555;
@@ -107,10 +108,19 @@ body {
 
 .progress-bar {
   height: 100%;
-  background: var(--accent);
   border-radius: 99px;
-  width: 0%;
+  width: 100%;
   transition: width 0.4s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  flex-direction: row;
+}
+.progress-bar-line{
+  height: 100%;
+  width: 0%;
+  background-color: var(--accent);
+}
+.progress-bar-line.red{
+  background-color: var(--incorrect-red);
 }
 
 .progress-label {
@@ -207,9 +217,22 @@ body {
 
 .card.is-open {
   border-color: var(--accent);
-  background: var(--surface-2);
+  background: #fbfffb;
   box-shadow: 0 0 0 1px var(--accent);
 }
+.card.is-open.incorrect{
+  background-color: #fffafa;
+  border-color: #e07878;
+  box-shadow: 0 0 0 1px #e07878;
+}
+.card.is-open.incorrect .card-number{
+  color: var(--incorrect-red);
+}
+.card.is-open.incorrect .answer-block{
+  background-color: #df3c3c14;
+  border-left: 2px solid #ff3e3e;
+}
+
 
 .card-number {
   font-size: 11px;
@@ -404,10 +427,21 @@ body {
 
 .side-progress-fill {
   width: 100%;
-  height: 0%;
-  background: var(--accent);
+  height: 100%;
+  /* background: var(--accent); */
   border-radius: 99px;
   transition: height 0.4s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.side-progress-fill-line {
+  width: 100%;
+  height: 0%;
+  background: var(--accent);
+}
+.side-progress-fill-line.red {
+  background: var(--incorrect-red);
 }
 
 .side-progress-label {
